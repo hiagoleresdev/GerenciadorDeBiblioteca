@@ -19,5 +19,11 @@ namespace GerenciadorDeBiblioteca.Controllers
             return CreatedAtAction(nameof(GetById), new {}, livroModel);
         }
 
+        [HttpDelete("deletar")]
+        public IActionResult Delete()
+        {
+            return NoContent();
+        }
+
     }
 }

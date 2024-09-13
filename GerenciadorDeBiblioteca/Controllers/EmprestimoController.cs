@@ -17,5 +17,11 @@ namespace GerenciadorDeBiblioteca.Controllers
         {
             return Created();
         }
+
+        [HttpDelete("deletar")]
+        public IActionResult Delete(Guid id)
+        {
+            return NoContent();
+        }
     }
 }
