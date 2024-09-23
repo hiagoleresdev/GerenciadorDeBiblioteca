@@ -1,10 +1,8 @@
-﻿using GerenciadorDeBiblioteca.Models;
-
-namespace GerenciadorDeBiblioteca.NovaPasta.InputModel
+﻿namespace GerenciadorDeBiblioteca.Models.ViewModel
 {
-    public class EmprestimoInputModel
+    public class EmprestimoViewModel
     {
-        public EmprestimoInputModel(int idUsuario, int idLivro, DateTime dataEmprestimo, DateTime dataDeDevolucao)
+        public EmprestimoViewModel(int idUsuario, int idLivro, DateTime dataEmprestimo, DateTime dataDeDevolucao)
         {
             IdUsuario = idUsuario;
             IdLivro = idLivro;
@@ -19,6 +17,7 @@ namespace GerenciadorDeBiblioteca.NovaPasta.InputModel
         public DateTime DataEmprestimo { get; set; }
         public DateTime DataDeDevolucao { get; set; }
 
-        public static Emprestimo FromEntity(EmprestimoInputModel e) => new (e.IdUsuario, e.IdLivro, e.DataEmprestimo, e.DataDeDevolucao);
+        public static EmprestimoViewModel FromEntity(Emprestimo e) => new EmprestimoViewModel(e.IdUsuario, e.IdLivro, e.DataEmprestimo, e.DataDeDevolucao);
+
     }
 }

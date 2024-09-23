@@ -1,10 +1,11 @@
-﻿using GerenciadorDeBiblioteca.Models;
+﻿using GerenciadorDeBiblioteca.Entities;
 
-namespace GerenciadorDeBiblioteca.NovaPasta.InputModel
+namespace GerenciadorDeBiblioteca.Models
 {
-    public class EmprestimoInputModel
+    public class Emprestimo : BaseEntity
     {
-        public EmprestimoInputModel(int idUsuario, int idLivro, DateTime dataEmprestimo, DateTime dataDeDevolucao)
+        public Emprestimo(int idUsuario, int idLivro, DateTime dataEmprestimo, DateTime dataDeDevolucao)
+            : base()
         {
             IdUsuario = idUsuario;
             IdLivro = idLivro;
@@ -19,6 +20,9 @@ namespace GerenciadorDeBiblioteca.NovaPasta.InputModel
         public DateTime DataEmprestimo { get; set; }
         public DateTime DataDeDevolucao { get; set; }
 
-        public static Emprestimo FromEntity(EmprestimoInputModel e) => new (e.IdUsuario, e.IdLivro, e.DataEmprestimo, e.DataDeDevolucao);
+        public void Devolver()
+        {
+            DataDeDevolucao = DateTime.Now;
+        }
     }
 }
