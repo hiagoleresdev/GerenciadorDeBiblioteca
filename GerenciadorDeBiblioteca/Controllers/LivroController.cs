@@ -1,5 +1,4 @@
 ﻿using GerenciadorDeBiblioteca.Entities;
-using GerenciadorDeBiblioteca.Models;
 using GerenciadorDeBiblioteca.Models.ViewModel;
 using GerenciadorDeBiblioteca.NovaPasta.InputModel;
 using Microsoft.AspNetCore.Mvc;
@@ -49,18 +48,25 @@ namespace GerenciadorDeBiblioteca.Controllers
             return Ok();
         }
 
-        [HttpPost("devolver")]
+        [HttpPost("devolver")]  
         public IActionResult Devolver(int livroId)
         {
-            var emprestimo = _context.Emprestimo.SingleOrDefault(t=> t.IdLivro == livroId);
-            if (emprestimo == null)
+            var livro = _context.Livros.SingleOrDefault(t=> t.Id == livroId);
+            if (livro == null) 
                 return NotFound();
+
+            var emprestimo = _context.Emprestimo.FirstOrDefault(t=> t.IdLivro == livroId && t.Ativo);
+            if (emprestimo == null)
+                return NotFound($"Não há nenhum emprestimo associado ao livro {livroId}");
 
             var diasAtraso = (DateTime.Now.Date - emprestimo.DataDeDevolucao.Date).TotalDays;
 
             emprestimo.Devolver();
+            livro.EstaEmprestado = false;
 
             _context.Emprestimo.Update(emprestimo);
+            _context.Livros.Update(livro);
+
             _context.SaveChanges();
 
             return Ok((DateTime.Now > emprestimo.DataDeDevolucao ? $"Entrega com {diasAtraso} dias de atraso." : "Entrega concluída em dia!"));

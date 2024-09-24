@@ -11,11 +11,14 @@ namespace GerenciadorDeBiblioteca.Models
             Titulo = titulo;
             Autor = autor;
             ISBN = isbn;
-            AnoPublicacao = anoPublicacao;  
+            AnoPublicacao = anoPublicacao;
+            EstaEmprestado = false; 
         }
         public string Titulo { get; set; }
         public string Autor { get; set; }
         public string ISBN { get; set; }
         public int AnoPublicacao { get; set; }
+        
+        public bool EstaEmprestado { get; set; }
     }
 }

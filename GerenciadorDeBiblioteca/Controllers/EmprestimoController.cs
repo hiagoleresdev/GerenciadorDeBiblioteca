@@ -36,9 +36,18 @@ namespace GerenciadorDeBiblioteca.Controllers
         [HttpPost("cadastrar")]
         public IActionResult Cadastrar(EmprestimoInputModel emprestimoModel)
         {
+            var livro = _context.Livros.SingleOrDefault(t => t.Id == emprestimoModel.IdLivro);
+            if(livro == null)
+                return NotFound("O livro não foi encontrado");
+
+            if(livro.EstaEmprestado)
+                return BadRequest("O livro não pode ser emprestadopois pois já está em um emprestimo ativo.");
+
             var model = EmprestimoInputModel.FromEntity(emprestimoModel);
             var emprestimo = _context.Emprestimo.Add(model);
 
+            livro.EstaEmprestado = true;
+            _context.Livros.Update(livro);
             _context.SaveChanges();
 
             return Ok();
@@ -48,7 +57,7 @@ namespace GerenciadorDeBiblioteca.Controllers
         public IActionResult Delete(int id)
         {
             var emprestimo = _context.Emprestimo.SingleOrDefault(t=> t.Id == id);
-            if (emprestimo != null)
+            if (emprestimo == null)
                 return NotFound("Emprestimo não encontrado!");
 
             _context.Emprestimo.Remove(emprestimo);
